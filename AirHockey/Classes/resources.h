@@ -1,0 +1,8 @@
+#pragma once
+#include "cocos2d.h"
+
+#define BALL_COLLISION_BITMASK 0x000001
+#define RED_GATE_CONTACT_BITMASK 0x000002
+#define BLUE_GATE_CONTACT_BITMASK 0x000003
+
+static const float BACKGROUND_SPRITE_SCALE = 0.44f;
