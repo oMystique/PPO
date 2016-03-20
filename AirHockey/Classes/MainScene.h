@@ -3,14 +3,12 @@
 
 #include "ball.h"
 
-class HelloWorld : public cocos2d::Layer
+class CMainScene : public cocos2d::Layer
 {
 public:
-	HelloWorld() = default;
-	~HelloWorld() = default;
     static cocos2d::Scene* createScene();
     bool init() override;
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(CMainScene);
 private:
 	void setPhysicsWorld(cocos2d::PhysicsWorld *world) { m_pSceneWorld = world; };
 	bool onContactBegin(cocos2d::PhysicsContact &contact);
@@ -30,4 +28,4 @@ private:
 	std::unordered_map<int, cocos2d::Node*> m_mouses;
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+#endif 

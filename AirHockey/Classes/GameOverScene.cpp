@@ -1,13 +1,12 @@
 #include "GameOverScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
-#include "HelloWorldScene.h"
+#include "MainScene.h"
 #include "MainMenuScene.h"
 
 USING_NS_CC;
 
 std::string g_winner;
-
 
 static const std::string BACKGROUND_MENU_IMAGE_PATH = "background_menu.png";
 static const std::string RESTART_BUTTON_NONCLICKED_IMAGE_PATH = "restart_nonclicked.png";
@@ -33,13 +32,12 @@ bool GameOverScene::init()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	////////////////////////////
-	//загружаем картинку
+
 	auto backgroundSprite = Sprite::create(BACKGROUND_MENU_IMAGE_PATH);
 	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-	backgroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
+//	backgroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
+
 	this->addChild(backgroundSprite);
-	///////////////////////////////
 	auto retryItem = MenuItemImage::create(RESTART_BUTTON_NONCLICKED_IMAGE_PATH, RESTART_BUTTON_CLICKED_IMAGE_PATH,
 		CC_CALLBACK_1(GameOverScene::goToMainMenuScene, this));
 	retryItem->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 45));

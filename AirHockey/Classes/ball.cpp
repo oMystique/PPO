@@ -25,7 +25,7 @@ bool CBall::initWithTexture(Texture2D* aTexture)
 	{
 		m_visibleSize = Director::getInstance()->getVisibleSize();
 		m_origin = Director::getInstance()->getVisibleOrigin();
-		Sprite::setScale(0.3f);
+		Sprite::setScale(0.6f);
 		m_pSpriteBody = PhysicsBody::createCircle(getContentSize().width / 2, PhysicsMaterial(1.f, 1.3f, 1.f));
 		m_pSpriteBody->setCollisionBitmask(1);
 		m_pSpriteBody->setContactTestBitmask(true);

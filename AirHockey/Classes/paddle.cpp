@@ -1,5 +1,5 @@
 #include "paddle.h"
-#include "HelloWorldScene.h"
+#include "MainScene.h"
 
 USING_NS_CC;
 
@@ -30,9 +30,8 @@ bool CPaddle::initWithTexture(Texture2D* aTexture)
 {
 	if (Sprite::initWithTexture(aTexture))
 	{
-		Sprite::setScale(0.35f);
+		Sprite::setScale(0.79f);
 		spriteBody = PhysicsBody::createCircle(getContentSize().width / 2, PhysicsMaterial(600, 0.5f, 600));
-		spriteBody->setMass(100.f);
 		spriteBody->setTag(128);
 		setPhysicsBody(spriteBody);
 	}

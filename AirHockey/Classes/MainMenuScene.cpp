@@ -30,7 +30,7 @@ bool MainMenuScene::init()
 
 	auto backgroundSprite = Sprite::create(BACKGROUND_MENU_IMAGE_PATH);
 	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-	backgroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
+	//backgroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
 	this->addChild(backgroundSprite);
 
 	auto playItem = MenuItemImage::create(PLAYERS_BUTTON_NONCLICKED_IMAGE_PATH, PLAYERS_BUTTON_CLICKED_IMAGE_PATH, 
@@ -48,6 +48,6 @@ bool MainMenuScene::init()
 
 void MainMenuScene::goToGameScene(cocos2d::Ref *sender)
 {
-	auto scene = HelloWorld::createScene();
+	auto scene = CMainScene::createScene();
 	Director::getInstance()->replaceScene(TransitionFlipX::create(1, scene));
 }

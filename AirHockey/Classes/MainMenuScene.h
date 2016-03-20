@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HelloWorldScene.h"
+#include "MainScene.h"
 
 
 class MainMenuScene : public cocos2d::Layer

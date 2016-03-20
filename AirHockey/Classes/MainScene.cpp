@@ -1,4 +1,4 @@
-#include "HelloWorldScene.h"
+#include "MainScene.h"
 #include "GameOverScene.h"
 #include <string>
 #include <sstream>
@@ -20,19 +20,19 @@ static const std::string BLUE_PADDLE_IMAGE_PATH = "blue_player.png";
 static const std::string RED_PADDLE_IMAGE_PATH = "red_player.png";
 static const std::string BALL_IMAGE_PATH = "ball_1.png";
 
-Scene* HelloWorld::createScene()
+Scene* CMainScene::createScene()
 {
 	auto scene = Scene::createWithPhysics();
 
 	scene->getPhysicsWorld()->setGravity(Vec2(0.f, 0.f));
-    auto layer = HelloWorld::create();
+    auto layer = CMainScene::create();
 	layer->setPhysicsWorld(scene->getPhysicsWorld());
 
     scene->addChild(layer);
     return scene;
 }
 
-bool HelloWorld::init()
+bool CMainScene::init()
 {
 	if (!Layer::init())
 	{
@@ -59,19 +59,18 @@ bool HelloWorld::init()
 
 	auto backGroundSprite = cocos2d::Sprite::create(BACKGROUND_IMAGE_PATH);
 	backGroundSprite->setPosition(cocos2d::Vec2(visibleSize / 2) + origin);
-	backGroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
 	this->addChild(backGroundSprite);
 
-	auto m_pBluePaddleTexture = cocos2d::Director::getInstance()->getTextureCache()->addImage(BLUE_PADDLE_IMAGE_PATH);
-	auto m_pRedPaddleTexture = cocos2d::Director::getInstance()->getTextureCache()->addImage(RED_PADDLE_IMAGE_PATH);
+	Texture2D *pBluePaddleTexture = cocos2d::Director::getInstance()->getTextureCache()->addImage(BLUE_PADDLE_IMAGE_PATH);
+	Texture2D *pRedPaddleTexture = cocos2d::Director::getInstance()->getTextureCache()->addImage(RED_PADDLE_IMAGE_PATH);
 
-	m_pBluePaddle = CPaddle::createWithTexture(m_pBluePaddleTexture);
+	m_pBluePaddle = CPaddle::createWithTexture(pBluePaddleTexture);
 	m_pBluePaddle->setPosition(Vec2(origin.x + visibleSize.width / 2 + 100,
 		origin.y + visibleSize.height - m_pBluePaddle->getContentSize().height - 50));
 	m_pBluePaddle->setTag(128);
 	addChild(m_pBluePaddle);
 
-	m_pRedPaddle = CPaddle::createWithTexture(m_pRedPaddleTexture);
+	m_pRedPaddle = CPaddle::createWithTexture(pRedPaddleTexture);
 	m_pRedPaddle->setPosition((Vec2(origin.x + visibleSize.width / 2 - 100,
 		origin.y + visibleSize.height - m_pRedPaddle->getContentSize().height + 50)));
 	m_pRedPaddle->setTag(128);
@@ -85,7 +84,7 @@ bool HelloWorld::init()
 	auto pRepeatRotate = cocos2d::RepeatForever::create(rotateBy);
 	m_pBall->runAction(pRepeatRotate);
 
-	auto redGateBody = PhysicsBody::createBox(Size(5, 100));
+	auto redGateBody = PhysicsBody::createBox(Size(5, visibleSize.height / 3));
 	redGateBody->setDynamic(false);
 	redGateBody->setContactTestBitmask(true);
 	redGateBody->setContactTestBitmask(RED_GATE_CONTACT_BITMASK);
@@ -95,7 +94,7 @@ bool HelloWorld::init()
 	redGateNode->setPhysicsBody(redGateBody);
 	addChild(redGateNode);
 
-	auto blueGateBody = PhysicsBody::createBox(Size(5, 100));
+	auto blueGateBody = PhysicsBody::createBox(Size(5, visibleSize.height / 3));
 	blueGateBody->setDynamic(false);
 	blueGateBody->setContactTestBitmask(true);
 	blueGateBody->setContactTestBitmask(BLUE_GATE_CONTACT_BITMASK);
@@ -106,21 +105,21 @@ bool HelloWorld::init()
 	addChild(blueGateNode);
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegan, this);
-	listener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
-	listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+	listener->onTouchBegan = CC_CALLBACK_2(CMainScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(CMainScene::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(CMainScene::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
+	contactListener->onContactBegin = CC_CALLBACK_1(CMainScene::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 	
 
 	m_scores = { 0, 0 };
 	m_pScoresLabel = Label::createWithTTF(std::to_string(static_cast<int>(m_scores.x)) + " - " +
-		std::to_string(static_cast<int>(m_scores.y)), "arial.TTF", visibleSize.height * 0.15);
+		std::to_string(static_cast<int>(m_scores.y)), "arial.ttf", visibleSize.height * 0.15);
 	m_pScoresLabel->setColor(Color3B::WHITE);
-	m_pScoresLabel->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height - origin.y - 30));
+	m_pScoresLabel->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height - origin.y - 50));
 	this->addChild(m_pScoresLabel, 10000);
 
 	this->scheduleUpdate();
@@ -128,7 +127,7 @@ bool HelloWorld::init()
 	return true;
 }
 
-bool HelloWorld::onContactBegin(cocos2d::PhysicsContact &contact)
+bool CMainScene::onContactBegin(cocos2d::PhysicsContact &contact)
 {
 	PhysicsBody *a = contact.getShapeA()->getBody();
 	PhysicsBody *b = contact.getShapeB()->getBody();
@@ -157,7 +156,7 @@ bool HelloWorld::onContactBegin(cocos2d::PhysicsContact &contact)
 	return false;
 }
 
-bool HelloWorld::onTouchBegan(Touch* touch, Event* event)
+bool CMainScene::onTouchBegan(Touch* touch, Event* event)
 {
 	auto location = touch->getLocation();
 	auto arr = m_pSceneWorld->getShapes(location);
@@ -189,7 +188,7 @@ bool HelloWorld::onTouchBegan(Touch* touch, Event* event)
 	return false;
 }
 
-void HelloWorld::onTouchMoved(Touch* touch, Event* event)
+void CMainScene::onTouchMoved(Touch* touch, Event* event)
 {
 	auto it = m_mouses.find(touch->getID());
 
@@ -199,7 +198,7 @@ void HelloWorld::onTouchMoved(Touch* touch, Event* event)
 	}
 }
 
-void HelloWorld::onTouchEnded(Touch* touch, Event* event)
+void CMainScene::onTouchEnded(Touch* touch, Event* event)
 {
 	auto it = m_mouses.find(touch->getID());
 
@@ -210,7 +209,7 @@ void HelloWorld::onTouchEnded(Touch* touch, Event* event)
 	}
 }
 
-void HelloWorld::update(float dt)
+void CMainScene::update(float dt)
 {
 	m_pBall->ballAction();
 	if ((m_scores.x >= 6) || (m_scores.y >= 6))
