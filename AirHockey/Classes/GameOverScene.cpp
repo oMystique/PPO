@@ -17,8 +17,8 @@ using namespace cocostudio::timeline;
 Scene* GameOverScene::createScene(std::string winner)
 {
 	g_winner = winner;
-	auto scene = Scene::create();
-	auto layer = GameOverScene::create();
+	auto scene = make_cc<Scene>();
+	auto layer = make_cc<GameOverScene>();
 	scene->addChild(layer);
 	return scene;
 }
@@ -35,7 +35,7 @@ bool GameOverScene::init()
 
 	auto backgroundSprite = Sprite::create(BACKGROUND_MENU_IMAGE_PATH);
 	backgroundSprite->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-//	backgroundSprite->setScale(BACKGROUND_SPRITE_SCALE);
+
 
 	this->addChild(backgroundSprite);
 	auto retryItem = MenuItemImage::create(RESTART_BUTTON_NONCLICKED_IMAGE_PATH, RESTART_BUTTON_CLICKED_IMAGE_PATH,

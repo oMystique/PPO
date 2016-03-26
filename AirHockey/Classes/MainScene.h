@@ -16,6 +16,9 @@ private:
 	void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 	void update(float dt);
+	void createActionObjects(cocos2d::Vec2 const &origin, cocos2d::Size const &visibleSize);
+	void createStaticPhysicalObjects(cocos2d::Vec2 const &origin, cocos2d::Size const &visibleSize);
+	void createGraphicalElements(cocos2d::Vec2 const &origin, cocos2d::Size const &visibleSize);
 private:
 	CBall *m_pBall;
 	CPaddle *m_pRedPaddle;

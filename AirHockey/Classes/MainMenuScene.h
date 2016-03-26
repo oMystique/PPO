@@ -10,7 +10,7 @@ public:
 	~MainMenuScene() = default;
 	CREATE_FUNC(MainMenuScene);
 	static cocos2d::Scene* createScene();
+	bool init() override;
 private:
 	void goToGameScene(cocos2d::Ref *sender);
-	bool init() override;
 };

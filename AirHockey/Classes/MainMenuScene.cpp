@@ -13,8 +13,8 @@ static const std::string PLAYERS_BUTTON_CLICKED_IMAGE_PATH = "2players_clicked.p
 
 Scene* MainMenuScene::createScene()
 {
-	auto scene = Scene::create();
-	auto layer = MainMenuScene::create();
+	auto scene = make_cc<Scene>();
+	auto layer = make_cc<MainMenuScene>();
 	scene->addChild(layer);
 	return scene;
 }
